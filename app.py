@@ -44,6 +44,13 @@ def predict(request: PredictRequest):
     predicted_value = float(final_result[0])
     return {"predicted_crisis_rate": predicted_value}
 
+@app.get("/regions/{region}/features")
+def get_region_features(region: str):
+    if region not in loaded_features:
+        raise HTTPException(status_code=400, detail="features not found")
+    
+    return loaded_features[region]
+
 @app.get("/health")
 def get_health():
     return {"status": "ok"}
